@@ -1,20 +1,22 @@
 import requests
 import csv
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # Fetch API key and account name from environment variables
 API_KEY = os.getenv("API_KEY")  # Ensure to set this as an environment variable
 ACCOUNT_NAME = os.getenv("ACCOUNT_NAME")  # Ensure to set this as an environment variable
+OUTPUT_PREFIX = os.getenv("OUTPUT_FILENAME_PREFIX") # Default Set to CF if not set
 
 if not API_KEY or not ACCOUNT_NAME:
     raise ValueError("Both API_KEY and ACCOUNT_NAME must be set as environment variables.")
 
 # Sanitize the account name to make it file-system safe
-safe_account_name = ACCOUNT_NAME.replace(" ", "_").replace("/", "_")
-OUTPUT_FILENAME = f'CF_{safe_account_name}_dns_info_{datetime.now().strftime("%Y-%m-%d")}.csv'
+#safe_account_name = ACCOUNT_NAME.replace(" ", "_").replace("/", "_")
+Prefix_file_name = OUTPUT_PREFIX.replace(" ", "_").replace("/", "_")
+OUTPUT_FILENAME = f'{Prefix_file_name}_{datetime.now(timezone.utc).strftime("%Y-%m-%d %H_%M_%S(UTC)")}.csv'
 
 # Create a session to reuse HTTP connections
 session = requests.Session()
