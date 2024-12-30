@@ -5,18 +5,39 @@ from datetime import datetime, timezone
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-# Fetch API key and account name from environment variables
+# Fetch environment variables for API key, account name, and output location
 API_KEY = os.getenv("API_KEY")  # Ensure to set this as an environment variable
 ACCOUNT_NAME = os.getenv("ACCOUNT_NAME")  # Ensure to set this as an environment variable
-OUTPUT_PREFIX = os.getenv("OUTPUT_FILENAME_PREFIX") # Default Set to CF if not set
+OUTPUT_PREFIX = os.getenv("OUTPUT_FILENAME_PREFIX")  # No default, must be provided or prompted
 
+# Validate API_KEY and ACCOUNT_NAME
 if not API_KEY or not ACCOUNT_NAME:
     raise ValueError("Both API_KEY and ACCOUNT_NAME must be set as environment variables.")
 
-# Sanitize the account name to make it file-system safe
-#safe_account_name = ACCOUNT_NAME.replace(" ", "_").replace("/", "_")
-Prefix_file_name = OUTPUT_PREFIX.replace(" ", "_").replace("/", "_")
-OUTPUT_FILENAME = f'{Prefix_file_name}_{datetime.now(timezone.utc).strftime("%Y-%m-%d %H_%M_%S(UTC)")}.csv'
+# Prompt for output prefix if not provided
+if not OUTPUT_PREFIX:
+    print("Error: OUTPUT_FILENAME_PREFIX is not set.")
+    OUTPUT_PREFIX = input("Please enter a file name prefix (e.g., CF_D): ").strip()
+
+    if not OUTPUT_PREFIX:
+        raise ValueError("A valid file name prefix is required to proceed.")
+
+# Sanitize the output prefix
+OUTPUT_PREFIX = OUTPUT_PREFIX.replace(" ", "_").replace("/", "_")
+
+# Default to /app as the output directory for container compatibility
+DEFAULT_OUTPUT_DIR = "/app"
+OUTPUT_DIR = os.getenv("OUTPUT_DIR", DEFAULT_OUTPUT_DIR)  # Use default /app if not set
+
+# Ensure output directory exists
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+# Generate output file name with timestamp
+OUTPUT_FILENAME = f'{OUTPUT_PREFIX}.csv'
+FULL_OUTPUT_PATH = os.path.join(OUTPUT_DIR, OUTPUT_FILENAME)
+
+# Output file information
+print(f"Output file will be saved to: {FULL_OUTPUT_PATH}")
 
 # Create a session to reuse HTTP connections
 session = requests.Session()
@@ -101,6 +122,6 @@ if __name__ == "__main__":
                 print(f"Error processing zone: {e}")
 
     # Write results to CSV
-    print(f"Writing data to {OUTPUT_FILENAME}...")
-    write_to_csv(dns_data, OUTPUT_FILENAME)
+    print(f"Writing data to {FULL_OUTPUT_PATH}...")
+    write_to_csv(dns_data, FULL_OUTPUT_PATH)
     print("Done!")
