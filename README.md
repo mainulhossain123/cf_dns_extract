@@ -2,6 +2,8 @@
 
 This Python script is designed to extract DNS records from Cloudflare zones and save the extracted data into a CSV file. The script fetches zone and DNS record data via the Cloudflare API and organizes it in a structured format.
 
+###PLEASE NOTE: The script is written to be run inside a docker contaimer image therefore all user inputs need to be placed via environment variables.
+
 ## Prerequisites
 
 Before running the script, make sure you have the following:
