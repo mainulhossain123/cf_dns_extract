@@ -47,8 +47,8 @@ The Script uses the following:
    ```
   
   **Explanation of Parameters:**
-   - `-v (Enter Your File Path):/app`: This maps the local `Downloads` folder on your Windows machine to the `/app` directory inside the container, which is the default output location for the CSV file.
-   - `-e API_KEY='YOUR_API_KEY'`: Replace `'YOUR_API_KEY'` with your Cloudflare API key.
+   - `-v (Enter Your File Path):/app`: This maps the local chosen file path folder on your computer, (Windoes, Linux, MAC) machine to the `/app` directory inside the container, which is the default output location for the CSV file.
+   - `-e API_KEY='YOUR_API_KEY'`: Replace `'YOUR_API_KEY'` with your Cloudflare API Bearer Token.
    - `-e ACCOUNT_NAME='CF_ACCOUNT_NAME'`: Replace `'CF_ACCOUNT_NAME'` with your Cloudflare account name.
    - `-e OUTPUT_FILENAME_PREFIX='SET_YOUR_FILE_NAME'`: Provide the file name prefix that will be used to generate the output CSV file.
    - `-e OUTPUT_DIR='/app'`: Define the directory inside the container where the output file will be saved. By default, it's set to `/app`, but you can modify this if needed.
