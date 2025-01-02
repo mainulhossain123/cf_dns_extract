@@ -25,6 +25,10 @@ if not OUTPUT_PREFIX:
 # Sanitize the output prefix
 OUTPUT_PREFIX = OUTPUT_PREFIX.replace(" ", "_").replace("/", "_")
 
+# Ensure the filename ends with .csv
+if not OUTPUT_PREFIX.endswith(".csv"):
+    OUTPUT_PREFIX += ".csv"
+
 # Default to /app as the output directory for container compatibility
 DEFAULT_OUTPUT_DIR = "/app"
 OUTPUT_DIR = os.getenv("OUTPUT_DIR", DEFAULT_OUTPUT_DIR)  # Use default /app if not set
@@ -32,12 +36,12 @@ OUTPUT_DIR = os.getenv("OUTPUT_DIR", DEFAULT_OUTPUT_DIR)  # Use default /app if 
 # Ensure output directory exists
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# Generate output file name with timestamp
-OUTPUT_FILENAME = f'{OUTPUT_PREFIX}'
-FULL_OUTPUT_PATH = os.path.join(OUTPUT_DIR, OUTPUT_FILENAME)
+# Generate full output path
+FULL_OUTPUT_PATH = os.path.join(OUTPUT_DIR, OUTPUT_PREFIX)
 
 # Output file information
 print(f"Output file will be saved to: {FULL_OUTPUT_PATH}")
+
 
 # Create a session to reuse HTTP connections
 session = requests.Session()
