@@ -33,7 +33,7 @@ OUTPUT_DIR = os.getenv("OUTPUT_DIR", DEFAULT_OUTPUT_DIR)  # Use default /app if 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # Generate output file name with timestamp
-OUTPUT_FILENAME = f'{OUTPUT_PREFIX}.csv'
+OUTPUT_FILENAME = f'{OUTPUT_PREFIX}'
 FULL_OUTPUT_PATH = os.path.join(OUTPUT_DIR, OUTPUT_FILENAME)
 
 # Output file information
