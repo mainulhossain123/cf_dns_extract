@@ -7,12 +7,12 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # Fetch environment variables for API key, account ID, and output location
 API_KEY = os.getenv("API_KEY")  # Ensure to set this as an environment variable
-ACCOUNT_ID = os.getenv("ACCOUNT_ID")  # Ensure to set this as an environment variable
+ACCOUNT_NAME = os.getenv("ACCOUNT_NAME")  # Ensure to set this as an environment variable
 OUTPUT_PREFIX = os.getenv("OUTPUT_FILENAME_PREFIX")  # No default, must be provided or prompted
 
-# Validate API_KEY and ACCOUNT_ID
-if not API_KEY or not ACCOUNT_ID:
-    raise ValueError("Both API_KEY and ACCOUNT_ID must be set as environment variables.")
+# Validate API_KEY and ACCOUNT_NAME
+if not API_KEY or not ACCOUNT_NAME:
+    raise ValueError("Both API_KEY and ACCOUNT_NAME must be set as environment variables.")
 
 # Prompt for output prefix if not provided
 if not OUTPUT_PREFIX:
@@ -45,8 +45,8 @@ print(f"Output file will be saved to: {FULL_OUTPUT_PATH}")
 # Create a session to reuse HTTP connections
 session = requests.Session()
 
-def get_zones(api_key, account_id, page, per_page):
-    """Fetch zones for the specified account."""
+def get_zones(api_key, page, per_page):
+    """Fetch all zones from the API with pagination."""
     url = "https://api.cloudflare.com/client/v4/zones"
     headers = {"Authorization": f"Bearer {api_key}"}
     params = {"page": page, "per_page": per_page}
@@ -59,7 +59,7 @@ def get_zones(api_key, account_id, page, per_page):
             if data.get('success') and isinstance(data.get('result'), list):
                 return data['result']  # Return the list of zones
         time.sleep(1)
-    return []  # Return an empty list if no valid result
+    return []  # Return empty list on failure
 
 def get_dns_records(zone_id, api_key):
     """Fetch DNS records for a specific zone."""
@@ -101,25 +101,25 @@ if __name__ == "__main__":
     per_page = 100
     all_zones = []
     
-    # Fetch all zones across all pages
+    # Fetch all zones and filter by account name
     print("Fetching zones...")
     while True:
-        zones = get_zones(API_KEY, ACCOUNT_ID, page, per_page)
-        if not zones:  # Stop when no zones are returned (end of pagination)
+        zones = get_zones(API_KEY, page, per_page)
+        if not zones:  # Stop when no more zones are returned
             break
-        # Filter zones by account ID
-        matching_zones = [zone for zone in zones if zone['account']['id'] == ACCOUNT_ID]
+        matching_zones = [
+            zone for zone in zones if zone['account']['name'].strip().lower() == ACCOUNT_NAME.strip().lower()
+        ]
         all_zones.extend(matching_zones)
         print(f"Fetched page {page}, {len(matching_zones)} matching zones")
         page += 1
-
 
     print(f"Total zones fetched: {len(all_zones)}")
 
     # Use ThreadPoolExecutor to fetch DNS records in parallel
     dns_data = []
     print("Fetching DNS records...")
-    with ThreadPoolExecutor(max_workers=12) as executor:
+    with ThreadPoolExecutor(max_workers=10) as executor:
         future_to_zone = {executor.submit(fetch_zone_data, zone, API_KEY): zone for zone in all_zones}
         for future in as_completed(future_to_zone):
             try:
@@ -131,4 +131,3 @@ if __name__ == "__main__":
     print(f"Writing data to {FULL_OUTPUT_PATH}...")
     write_to_csv(dns_data, FULL_OUTPUT_PATH)
     print("Done!")
-
