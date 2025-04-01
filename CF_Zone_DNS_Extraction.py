@@ -119,7 +119,7 @@ if __name__ == "__main__":
     # Use ThreadPoolExecutor to fetch DNS records in parallel
     dns_data = []
     print("Fetching DNS records...")
-    with ThreadPoolExecutor(max_workers=10) as executor:
+    with ThreadPoolExecutor(max_workers=5) as executor:
         future_to_zone = {executor.submit(fetch_zone_data, zone, API_KEY): zone for zone in all_zones}
         for future in as_completed(future_to_zone):
             try:
