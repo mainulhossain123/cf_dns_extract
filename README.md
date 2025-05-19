@@ -75,6 +75,9 @@ example.com, www.example.com, A , 192.0.2.1
 * If the OUTPUT_FILENAME_PREFIX is not provided via env, the script will prompt you to enter it.
 * It automatically sanitizes the filename (e.g., removes spaces and slashes).\
 
+## 🧵 Threading
+DNS record fetching is parallelized using Python's ThreadPoolExecutor for faster execution.
+
 ##🐳 Docker Compatibility
 If you're using this script inside a Docker container:
   * Make sure /app exists and is mounted as a volume.
