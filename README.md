@@ -24,12 +24,13 @@ pip install requests
 ---
 ## 🔐 Environment Variables
 
-| Variable                | Required   | Description
-|-------------------------|----------------------------------------
-| `API_KEY`               | ✅        |  Your Cloudflare API token
-| `ACCOUNT_NAME`          | ✅        |  Your Cloudflare account name     
-| `OUTPUT_FIELD_PREFIX`   | ✅        |  Prefix for the output CSV file (e.g., CF_DNS)      
-| `OUTPUT_DIR`            | ❌        |  Output directory for the CSV file (default: /app)
+| Variable                 | Description                                                        | Required |
+| ------------------------ | ------------------------------------------------------------------ | -------- |
+| `API_KEY`                | Cloudflare API token (with read permissions)                       | ✅ Yes    |
+| `ACCOUNT_NAME`           | Name of the Cloudflare account to filter zones                     | ✅ Yes    |
+| `OUTPUT_FILENAME_PREFIX` | Custom prefix for the output CSV file name (e.g., `CF_DNS_Export`) | ✅ Yes    |
+| `OUTPUT_DIR`             | (Optional) Directory to store the output file (default: `/app`)    | ❌ No     |
+
 
 Set environment variables (example on Linux/macOS):
 ```bash
