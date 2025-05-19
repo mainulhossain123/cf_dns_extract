@@ -1,4 +1,4 @@
-## 🔍 Cloudflare DNS Records Export Tool
+# 🔍 Cloudflare DNS Records Export Tool
 
 This Python script retrieves all DNS records from your Cloudflare account, filtered by Account Name, and saves them into a CSV file. It uses parallel processing to speed up DNS record collection and includes built-in support for containerized environments (e.g., Docker).
 
