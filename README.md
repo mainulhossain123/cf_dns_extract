@@ -56,12 +56,19 @@ Done!
 ```
 
 ## 🗃️ Output
-The output is a CSV file structured as follows:
+The script generates a CSV file named:
+```bash
+<OUTPUT_FILENAME_PREFIX>.csv
+```
 
-|  Zone Name  |    Hostname      | DNS Type |     DNS Value    |
-| example.com | www.example.com  |     A    |     192.0.2.1    |
-| example.com | mail.example.com |     MX   | mail.example.com |
+The file will contain the following columns:
+| Zone Name | Hostname | DNS Type | DNS Value |
+| --------- | -------- | -------- | --------- |
 
+Example row:
+```css
+example.com, www.example.com, A , 192.0.2.1
+```
 
 ## 💡 Notes
 * The script uses pagination to fetch zones in chunks of 100.
