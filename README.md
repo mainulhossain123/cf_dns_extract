@@ -2,6 +2,7 @@
 
 This Python script retrieves all DNS records from your Cloudflare account, filtered by Account Name, and saves them into a CSV file. It uses parallel processing to speed up DNS record collection and includes built-in support for containerized environments (e.g., Docker).
 
+---
 ## 🚀 Features
 *✅ Authenticates using a Cloudflare API token (via environment variable)
 *🔍 Filters zones by your Cloudflare Account Name
@@ -9,6 +10,7 @@ This Python script retrieves all DNS records from your Cloudflare account, filte
 *⚡ Fast DNS record fetching using ThreadPoolExecutor
 *📁 Compatible with containerized environments (e.g., output defaults to /app)
 *🔄 Handles pagination for large Cloudflare accounts
+---
 
 ## 🧠 Requirements
 * Python 3.7+
