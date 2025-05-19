@@ -4,24 +4,24 @@ This Python script retrieves all DNS records from your Cloudflare account, filte
 
 ---
 ## 🚀 Features
-*✅ Authenticates using a Cloudflare API token (via environment variable)
-*🔍 Filters zones by your Cloudflare Account Name
-*📄 Exports DNS records (A, CNAME, MX, TXT, etc.) into a clean CSV format
-*⚡ Fast DNS record fetching using ThreadPoolExecutor
-*📁 Compatible with containerized environments (e.g., output defaults to /app)
-*🔄 Handles pagination for large Cloudflare accounts
+* ✅ Authenticates using a Cloudflare API token (via environment variable)
+* 🔍 Filters zones by your Cloudflare Account Name
+* 📄 Exports DNS records (A, CNAME, MX, TXT, etc.) into a clean CSV format
+* ⚡ Fast DNS record fetching using ThreadPoolExecutor
+* 📁 Compatible with containerized environments (e.g., output defaults to /app)
+* 🔄 Handles pagination for large Cloudflare accounts
 ---
 
 ## 🧠 Requirements
 * Python 3.7+
 *Cloudflare API token with at least Zone.Read and DNS.Read permissions
 *Installed Python packages: requests
-
+---
 Install dependencies:
 ```bash
 pip install requests
 ```
-
+---
 ## 🔐 Environment Variables
 
 | Variable                | Required   | Description
@@ -37,7 +37,7 @@ export API_KEY=your_cloudflare_token
 export ACCOUNT_NAME="Your Corp Name"
 export OUTPUT_FILENAME_PREFIX=CF_DNS_Export
 ```
-
+---
 ## 🧪 Example Usage
 Once your environment is set up:
 ```bash
