@@ -78,7 +78,7 @@ example.com, www.example.com, A , 192.0.2.1
 ## 🧵 Threading
 DNS record fetching is parallelized using Python's ThreadPoolExecutor for faster execution.
 
-##🐳 Docker Compatibility
+## 🐳 Docker Compatibility
 If you're using this script inside a Docker container:
   * Make sure /app exists and is mounted as a volume.
   * The default output directory will be /app.\
